@@ -1,0 +1,14 @@
+{
+  "name": "expressdir",
+  "version": "1.0.0",
+  "description": "for learning expressjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aman Dhaka",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
