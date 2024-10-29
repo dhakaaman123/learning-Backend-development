@@ -4,6 +4,7 @@ const port =8080;
 const path = require("path")
 
 
+
 app.listen(port,()=>{
     console.log(`listening on port ${port}`)
 
@@ -15,9 +16,17 @@ app.get("/",(req,res)=>{
 
 });
 app.get("/ig/:username",(req,res)=>{
-    const followers=["adam","bob","steve","abc"]
     let {username}= req.params;
-    res.render("instagram.ejs",{username,followers});
+    const instaData = require("./data.json");
+    const data = instaData[username];
+    if(data){
+        res.render("instagram.ejs",{data});
+
+    }else{
+        res.render("error.ejs");
+    }
+    
+    
 });
 app.get("/rolldice",(req,res)=>{
     let diceVal = Math.floor(Math.random()*6)+1;
