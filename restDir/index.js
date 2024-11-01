@@ -9,13 +9,28 @@ app.set("views",path.join(__dirname,"/views"));
 
 
 
-app.set(express.static(path.join(__dirname,"public")));
-app.get("/",(req,res)=>{
-    res.send("server is started and finalizing");
+app.use(express.static(path.join(__dirname,"public")));
+let posts =[
+    {
+        username:"AmanDhaka",
+        content:"I love coding !"
+    },
+    {
+        username:"YashDhaka",
+        content:"Iam currently doing Bpharma !"
+    },
+    {
+        username:"SachinDhaka",
+        content:"Iam currently doing govt. job preparation!"
+    }
+];
+app.get("/posts",(req,res)=>{
+    // res.send("server is started and finalizing");
+    res.render("index.ejs",{posts});
 
 });
 app.listen(port, ()=>{
     console.log(`listening on port ${port}`);
 
-});
+});   
 
