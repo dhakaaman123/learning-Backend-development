@@ -12,14 +12,17 @@ app.set("views",path.join(__dirname,"/views"));
 app.use(express.static(path.join(__dirname,"public")));
 let posts =[
     {
+        id:"1a",
         username:"AmanDhaka",
         content:"I love coding !"
     },
     {
+        id:"2b",
         username:"YashDhaka",
         content:"Iam currently doing Bpharma !"
     },
     {
+        id:"3c",
         username:"SachinDhaka",
         content:"Iam currently doing govt. job preparation!"
     }
@@ -38,6 +41,12 @@ app.post("/posts",(req,res)=>{
     res.redirect("/posts");
 
 })
+app.get("/posts/:id",(req,res)=>{
+    let{id}=req.params;
+    let post = posts.find((p)=>id ===p.id);
+    console.log(post);
+    res.render("show.ejs" ,{post});
+});
 app.listen(port, ()=>{
     console.log(`listening on port ${port}`);
 
