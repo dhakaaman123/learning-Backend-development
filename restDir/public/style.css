@@ -1,9 +1,171 @@
-h1{
-    color:brown;
+*{
+ margin: 0;
+    box-sizing: border-box;
+ 
+}
+body{
+    background-color: rgb(222, 215, 215);
+}
+
+
+nav{
+    display: flex;
+    justify-content:space-between;
+    font-family: Verdana;
+    height: 65px;
+    
+    background-color:black;
+    align-items: center;
+    color: white;
+    font-size: 1rem;
+    position:fixed;
+    width: 100%;
+
+
+
+}
+.navdiv{
+    height: 70px;
+}
+nav ul{
+    display:flex;
+    list-style: none;
+    
+    align-items:center;
+    
+
+}
+nav ul li{
+    padding: 0 20px ;
+    transition: color 1s ease;
+}
+nav ul li:hover{
+    color:maroon;
+}
+.brand img {
+    height: 45px;
+    width: 40px;
+    margin-right: 4px;
+
+}
+.brand{
+    display: flex;
+    align-items: center;
+    
+}
+
+.search{
+    display: flex;
+  
+    margin-right:60px; 
+   
+    
+    border: none;
+    background-color:maroon;
+    /* border-radius:15px; */
+  
+    border-radius: 5px;
+    align-items: center;
+  
+    
+
+
+    
+}
+.search:hover{
+    border: 3px solid maroon;
+}
+.search form input{
+    padding:10px;
+    width: 300px;
+    border-radius:5px 0px 0px 5px;
+    border: 0px;
+    
+    color: white;
+    
+}
+
+.Search_icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:10px;
+    width: 45px;
+
+}
+
+.content{
+    color: blue;
+
+
 }
 .post{
     background-color: blanchedalmond;
+    width: 100%;
+   padding: 40px;
+   margin-bottom: 50px;
+   border-radius: 10px;
+
+    
+  
+ 
+    
 }
 .user{
     font-style: italic;
+    font-size: 25px;
+    color: red;
+}
+.post a{
+    text-decoration: none;
+
+    font-size: 17px;
+    color:black;
+}
+.adiv{
+    display: flex;
+
+}
+.adiv a{
+    padding: 10px;
+}
+.delbut{
+    padding: 7px;
+    background-color: brown;
+    font-size: 15px;
+    color: white;
+    border-radius: 10px;
+    margin-left: 40px;
+}
+.qcontainer{
+    /* display: flex; */
+    width: 75%;
+    height: 100vh;
+    margin: auto;
+    /* background-color:rgb(61, 57, 57); */
+    flex-direction: column;
+    flex-wrap: nowrap;
+    padding:60px;
+    /* justify-content: space-evenly; */
+   
+    
+
+
+}
+.cnew{
+    font-size: 30px;
+    background-color: maroon;
+    color: white;
+    height: 50px;
+    padding: 5px;
+    border-radius: 15px;
+}
+.cnew a{
+    text-decoration: none;
+    color: white;
+}
+.main{
+    display: flex;
+    padding: 50px;
+
 }

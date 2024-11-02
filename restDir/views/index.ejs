@@ -4,34 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Posts</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Quora Posts</h1>
-    <% for(post of posts){ %>
-        <div class="post">
-            <h3 class="user"> @<%=post.username  %></h3>
-             <h4 class="content"><%=post.content  %></h4>
-             <br>
-             <a href="http://localhost:8080/posts/<%= post.id %>">See In Detail</a>
-             <br>
-             <br>
-             <br>
-             <a href="http://localhost:8080/posts/<%= post.id %>/edit">Edit this post</a>
-             <br>
-             <br>
-             <br>
-             <form  action="/posts/<%= post.id %>?_method=DELETE" method="post">
-                <button>Delete Post</button>
-
-             </form>
+    <div class="navdiv">
+        <nav id="navbar">
+            <ul>
+                <li class="brand"><img src="data:image/png;base64,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" alt="logo image"><span>Quora</span></li>
+                <li>Home</li>
+                <li>About</li>
+                <li>Answer</li>
+                <li>following</li>
+            </ul>
+            <div class="search">
+                <form action="">
+                    <input type="text" placeholder="Ask your question">
+                    
+                </form>
+                <div class="Search_icon">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+             
+                
+                
+            </div>
+           
+        </nav>
+        
     </div>
-
-    <% } %>
-    <br>
-    <br>
-    <br>
-    <a href="http://localhost:8080/posts/new">Create New Posts</a>
+    <div class="main">
+        <div class="cnew">
+            <a href="http://localhost:8080/posts/new">Create New Posts</a>
+        </div>
+        <div class="qcontainer">
+            <div class="box">
+                <% for(post of posts){ %>
+                    <div class="post">
+                        <h3 class="user"> @<%=post.username  %></h3>
+                         <h4 class="content"><%=post.content  %></h4>
+                         <br>
+                         <div class="adiv">
+                            <a href="http://localhost:8080/posts/<%= post.id %>">See In Detail</a>
+                            <br>
+                            <br>
+                            <a href="http://localhost:8080/posts/<%= post.id %>/edit">Edit this post</a>
+                            <br>
+                         </div>
+                       
+                         <br>
+                         <form  action="/posts/<%= post.id %>?_method=DELETE" method="post">
+                            <button class="delbut">Delete Post</button>
+            
+                         </form>
+                </div>
+                <% } %>
     
+            </div>
+    
+           
+        </div>
+       
+    
+        
+        <br>
+        
+        
+
+    </div>
+   
+   
 </body>
 </html>
