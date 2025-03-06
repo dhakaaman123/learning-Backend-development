@@ -14,9 +14,15 @@ app.listen(port, () => {
 app.get("/",(req,res)=>{
     res.send("you contacted root path");
 });
-app.get("/home",(req,res)=>{
-    res.send("you contactd Home Path");
-});
+app.get("/:username/:id",(req,res)=>{
+    let{username,id}=req.params;
+    res.send(`Welcome to the Account of ${ username}`);
+})
+
+app.get("/search",(req,res)=>{
+    let {q}= req.query;
+    res.send(`<h1>The search results for the ${q}</h1>`);
+})
 
 
   
