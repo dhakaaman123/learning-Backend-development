@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const Chat = require("./models/chat");
 const { error } = require("console");
+const ExpressError = require("./ExpressError");
 const methodOverride = require("method-override")
 
 app.use(express.urlencoded({ extended: true }));
@@ -19,13 +20,18 @@ app.use(methodOverride("_method"));
 // MongoDB Connection
 async function main() {
   try {
-    await mongoose.connect('mongodb://127.0.0.1:27017/whatsapp');
+    await mongoose.connect('mongodb://127.0.0.1:27017/fakewhatsapp');
     console.log("Connected to MongoDB successfully");
   } catch (error) {
     console.error("MongoDB connection error:", error);
   }
 }
 main();
+function asyncWrap(fn){
+  return function(req,res,next){
+    fn(req,res,next).catch((err) =>next(err));
+  }
+}
 
 // Routes
 app.get("/", (req, res) => {
@@ -43,23 +49,22 @@ app.get("/chats", async (req, res) => {
 
 
 app.get("/chats/new", async (req, res) => {
-    try {
+    //  throw new ExpressError(404,"page not found");
       
       res.render("new.ejs");
-    } catch (error) {
-      res.status(500).send("Error fetching chats: " + error.message);
-    }
+    
   });
 
 
-  app.post("/chats/new", async (req, res) => {
-    try {
+  app.post("/chats/new", asyncWrap(
+    async (req, res) => {
+  
       const { from, to, msg } = req.body;
   
       // Validate required fields
-      if (!from || !to || !msg) {
-        return res.status(400).send("All fields are required: from, to, and msg.");
-      }
+      // if (!from || !to || !msg) {
+      //   return res.status(400).send("All fields are required: from, to, and msg.");
+      // }
       let date1 = new Date();
   
       // Save chat to the database
@@ -67,11 +72,9 @@ app.get("/chats/new", async (req, res) => {
   
       console.log("New chat created:", newChat);
       res.redirect('/chats'); // Redirect to the chats page
-    } catch (error) {
-      console.error("Error creating chat:", error.message);
-      res.status(500).send("Error creating chat: " + error.message);
-    }
-  });
+  
+  }
+  ) );
 
 
   app.get("/chats/:id/edit", async(req,res)=>{
@@ -113,6 +116,43 @@ app.get("/chats/new", async (req, res) => {
     res.redirect("/chats")
     
   });
+
+  app.get("/chats/:id", asyncWrap(async(req,res,next)=>{
+
+    let {id}= req.params;
+    let chat = await Chat.findById(id);
+    if(!chat){
+      next(  new ExpressError(404,"chat not found"));
+    
+    }
+    res.render("show.ejs",{chat});
+    
+ 
+ 
+
+}) )
+
+const hValidationError = (err)=>{
+  console.log("this is a validation eroor please follow rules");
+  console.dir(err.message);
+  return err;
+};
+
+
+app.use((err,req,res,next)=>{
+    console.log(err.name);
+    if(err.name ==="ValidationError"){
+      err = hValidationError(err);
+    }
+    next(err);
+})
+
+  // error handling middel
+
+  app.use((err,req,res,next)=>{
+    let {status=500,message="some Error Occured"}= err;
+    res.status(status).send(message);
+  })
   
 
 // Start the Server
